@@ -2,10 +2,15 @@ package br.com.dio.desafio.dominio;
 
 import java.util.*;
 
-public class Dev {
+public class Dev extends Faculdade{
     private String nome;
     private Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
+
+    public Dev(String nome, String nomeFaculdade, int semestres, int semestreAtual) {
+        super(nomeFaculdade, semestres,semestreAtual);
+        this.nome = nome;
+    }
 
     public void inscreverBootcamp(Bootcamp bootcamp){
         this.conteudosInscritos.addAll(bootcamp.getConteudos());
@@ -15,6 +20,7 @@ public class Dev {
     public void progredir() {
         Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
         if(conteudo.isPresent()) {
+            System.out.print("\nO dev " +getNome()+" progrediu no conteúdo: " + conteudo.get());
             this.conteudosConcluidos.add(conteudo.get());
             this.conteudosInscritos.remove(conteudo.get());
         } else {
@@ -74,4 +80,23 @@ public class Dev {
     public int hashCode() {
         return Objects.hash(nome, conteudosInscritos, conteudosConcluidos);
     }
+
+    @Override
+    public String toString() {
+        return "Dev [nome=" + nome + ", nomeFaculdade=" + getnomeFaculdade() + ", semestres=" + getSemestres() + ", semestreAtual=" + getSemestreAtual()
+                + "]";
+    }
+
+    @Override
+    public void semestresFormar() {
+        if(getSemestreAtual() == getSemestres()){
+            System.out.println("O(a) Dev " +getNome()+ " está no último semestre da faculdade.");
+        } else{
+            System.out.println("Faltam " +(getSemestres() - getSemestreAtual()) + " semestres para o(a) Dev " + getNome() + " se formar.");
+        }        
+       
+    }
+
+    
+   
 }
